@@ -104,17 +104,23 @@
 		</dependency>
 
 		<!-- SpringBoot集成mybatis框架 -->
-		<dependency>
+	<!--	<dependency>
 			<groupId>org.mybatis.spring.boot</groupId>
 			<artifactId>mybatis-spring-boot-starter</artifactId>
 			<version>${mybatis.spring.boot.starter.version}</version>
-		</dependency>
+		</dependency>-->
 		
 		<!-- pagehelper 分页插件 -->
 		<dependency>
 			<groupId>com.github.pagehelper</groupId>
 			<artifactId>pagehelper-spring-boot-starter</artifactId>
 			<version>${pagehelper.spring.boot.starter.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.mybatis</groupId>
+					<artifactId>mybatis</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 
 		<!--阿里数据库连接池 -->
@@ -231,7 +237,21 @@
 			<artifactId>poi-ooxml</artifactId>
 			<version>${poi.version}</version>
 		</dependency>
-
+		<dependency>
+			<groupId>com.baomidou</groupId>
+			<artifactId>mybatis-plus-boot-starter</artifactId>
+			<version>3.2.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.baomidou</groupId>
+			<artifactId>mybatis-plus-extension</artifactId>
+			<version>3.2.0</version>
+		</dependency>
+		<dependency>
+			<groupId>cn.hutool</groupId>
+			<artifactId>hutool-all</artifactId>
+			<version>5.0.6</version>
+		</dependency>
 	</dependencies>
 
 	<build>
