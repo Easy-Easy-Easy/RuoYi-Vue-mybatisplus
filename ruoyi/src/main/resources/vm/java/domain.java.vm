@@ -15,7 +15,7 @@ import ${import};
  * @date ${datetime}
  */
 #set($Entity="BaseEntity")
-public class ${ClassName} extends ${Entity}
+public class ${ClassName}
 {
     private static final long serialVersionUID = 1L;
 

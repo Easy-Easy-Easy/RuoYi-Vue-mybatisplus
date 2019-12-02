@@ -1,6 +1,8 @@
 package ${packageName}.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import java.util.List;
+import java.util.Arrays;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -41,7 +43,8 @@ public class ${ClassName}Controller extends BaseController
     public TableDataInfo list(${ClassName} ${className})
     {
         startPage();
-        List<${ClassName}> list = ${className}Service.select${ClassName}List(${className});
+        QueryWrapper<${ClassName}> queryWrapper = new QueryWrapper<${ClassName}>(${className});
+        List<${ClassName}> list = ${className}Service.list(queryWrapper);
         return getDataTable(list);
     }
 
@@ -53,7 +56,8 @@ public class ${ClassName}Controller extends BaseController
     @GetMapping("/export")
     public AjaxResult export(${ClassName} ${className})
     {
-        List<${ClassName}> list = ${className}Service.select${ClassName}List(${className});
+        QueryWrapper<${ClassName}> queryWrapper = new QueryWrapper<${ClassName}>(${className});
+        List<${ClassName}> list = ${className}Service.list(queryWrapper);
         ExcelUtil<${ClassName}> util = new ExcelUtil<${ClassName}>(${ClassName}.class);
         return util.exportExcel(list, "${businessName}");
     }
@@ -65,7 +69,7 @@ public class ${ClassName}Controller extends BaseController
     @GetMapping(value = "/{${pkColumn.javaField}}")
     public AjaxResult getInfo(@PathVariable("${pkColumn.javaField}") ${pkColumn.javaType} ${pkColumn.javaField})
     {
-        return AjaxResult.success(${className}Service.select${ClassName}ById(${pkColumn.javaField}));
+        return AjaxResult.success(${className}Service.getById(${pkColumn.javaField}));
     }
 
     /**
@@ -76,7 +80,7 @@ public class ${ClassName}Controller extends BaseController
     @PostMapping
     public AjaxResult add(@RequestBody ${ClassName} ${className})
     {
-        return toAjax(${className}Service.insert${ClassName}(${className}));
+        return toAjax(${className}Service.save(${className})? 1 : 0);
     }
 
     /**
@@ -87,7 +91,7 @@ public class ${ClassName}Controller extends BaseController
     @PutMapping
     public AjaxResult edit(@RequestBody ${ClassName} ${className})
     {
-        return toAjax(${className}Service.update${ClassName}(${className}));
+        return toAjax(${className}Service.updateById(${className})? 1 : 0);
     }
 
     /**
@@ -98,6 +102,6 @@ public class ${ClassName}Controller extends BaseController
 	@DeleteMapping("/{${pkColumn.javaField}s}")
     public AjaxResult remove(@PathVariable ${pkColumn.javaType}[] ${pkColumn.javaField}s)
     {
-        return toAjax(${className}Service.delete${ClassName}ByIds(${pkColumn.javaField}s));
+        return toAjax(${className}Service.removeByIds(Arrays.asList(${pkColumn.javaField}s))?1:0);
     }
 }
