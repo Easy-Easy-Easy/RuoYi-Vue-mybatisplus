@@ -4,6 +4,9 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.framework.aspectj.lang.annotation.Excel;
 import com.ruoyi.framework.web.domain.BaseEntity;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.IdType;
 #foreach ($import in $importList)
 import ${import};
 #end
@@ -15,12 +18,13 @@ import ${import};
  * @date ${datetime}
  */
 #set($Entity="BaseEntity")
+@TableName("${tableName}")
 public class ${ClassName}
 {
     private static final long serialVersionUID = 1L;
 
 #foreach ($column in $columns)
-#if(!$table.isSuperColumn($column.javaField))
+## #if(!$table.isSuperColumn($column.javaField))
     /** $column.columnComment */
 #if($column.list)
 #set($parentheseIndex=$column.columnComment.indexOf("（"))
@@ -37,12 +41,20 @@ public class ${ClassName}
     @Excel(name = "${comment}")
 #end
 #end
+    #if($column.isIncrement == '1')
+        #set($idType="(type= IdType.AUTO)")
+    #else
+        #set($idType="")
+    #end
+    #if($column.isPk =='1' &&$column.isIncrement == '1')
+    @TableId$idType
+    #end
     private $column.javaType $column.javaField;
 
-#end
+## #end
 #end
 #foreach ($column in $columns)
-#if(!$table.isSuperColumn($column.javaField))
+## #if(!$table.isSuperColumn($column.javaField))
 #if($column.javaField.substring(1,2).matches("[A-Z]"))
 #set($AttrName=$column.javaField)
 #else
@@ -57,7 +69,7 @@ public class ${ClassName}
     {
         return $column.javaField;
     }
-#end
+## #end
 #end
 
     @Override
