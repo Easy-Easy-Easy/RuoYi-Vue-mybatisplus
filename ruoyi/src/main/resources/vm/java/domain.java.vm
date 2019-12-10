@@ -18,7 +18,6 @@ import ${import};
  * @date ${datetime}
  */
 #set($Entity="BaseEntity")
-@TableName("${tableName}")
 public class ${ClassName}
 {
     private static final long serialVersionUID = 1L;
@@ -41,14 +40,6 @@ public class ${ClassName}
     @Excel(name = "${comment}")
 #end
 #end
-    #if($column.isIncrement == '1')
-        #set($idType="(type= IdType.AUTO)")
-    #else
-        #set($idType="")
-    #end
-    #if($column.isPk =='1' &&$column.isIncrement == '1')
-    @TableId$idType
-    #end
     private $column.javaType $column.javaField;
 
 ## #end

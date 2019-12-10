@@ -28,7 +28,7 @@ import org.springframework.util.ClassUtils;
  * 
  * @author ruoyi
  */
-@Configuration
+//@Configuration
 public class MyBatisConfig
 {
     @Autowired
@@ -90,7 +90,7 @@ public class MyBatisConfig
         return typeAliasesPackage;
     }
 
-    @Bean
+    //@Bean
     public SqlSessionFactory sqlSessionFactory(DataSource dataSource) throws Exception
     {
         String typeAliasesPackage = env.getProperty("mybatis-plus.typeAliasesPackage");
