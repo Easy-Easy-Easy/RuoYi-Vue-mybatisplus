@@ -1,6 +1,6 @@
 ## 平台简介
 该系统参考与ruoyi-vue.根据个人需求, 在该基础上添加了mybatis-plus及方法生成功能.
-该系统的演示地址: [Easy_Mybatis-Plus](http://140.143.198.246/)
+该系统的演示地址: [Easy_Mybatis-Plus](http://www.wufadakai.cn/)
 
 参考后台模板[vue-element-admin](https://github.com/PanJiaChen/vue-element-admin)
 
