@@ -77,8 +77,7 @@ public class TokenService
     {
         if (StringUtils.isNotNull(loginUser) && StringUtils.isNotEmpty(loginUser.getToken()))
         {
-            String userKey = getTokenKey(loginUser.getToken());
-            redisCache.setCacheObject(userKey, loginUser);
+            refreshToken(loginUser);
         }
     }
 
@@ -124,8 +123,6 @@ public class TokenService
         long currentTime = System.currentTimeMillis();
         if (expireTime - currentTime <= MILLIS_MINUTE_TEN)
         {
-            String token = loginUser.getToken();
-            loginUser.setToken(token);
             refreshToken(loginUser);
         }
     }

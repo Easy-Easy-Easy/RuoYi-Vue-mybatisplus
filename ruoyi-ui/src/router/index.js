@@ -32,7 +32,7 @@ export const constantRoutes = [
     hidden: true,
     children: [
       {
-        path: '/redirect/:path*',
+        path: '/redirect/:path(.*)',
         component: () => import('@/views/redirect')
       }
     ]
@@ -89,6 +89,19 @@ export const constantRoutes = [
         component: () => import('@/views/system/dict/data'),
         name: 'Data',
         meta: { title: '字典数据', icon: '' }
+      }
+    ]
+  },
+  {
+    path: '/job',
+    component: Layout,
+    hidden: true,
+    children: [
+      {
+        path: 'log',
+        component: () => import('@/views/monitor/job/log'),
+        name: 'JobLog',
+        meta: { title: '调度日志' }
       }
     ]
   },

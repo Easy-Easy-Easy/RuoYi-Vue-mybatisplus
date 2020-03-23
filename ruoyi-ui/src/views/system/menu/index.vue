@@ -32,22 +32,22 @@
       row-key="menuId"
       :tree-props="{children: 'children', hasChildren: 'hasChildren'}"
     >
-      <el-table-column prop="menuName" label="菜单名称" :show-overflow-tooltip="true" width="130px"></el-table-column>
-      <el-table-column prop="icon" label="图标" align="center" width="100px">
+      <el-table-column prop="menuName" label="菜单名称" :show-overflow-tooltip="true" width="160"></el-table-column>
+      <el-table-column prop="icon" label="图标" align="center" width="100">
         <template slot-scope="scope">
           <svg-icon :icon-class="scope.row.icon" />
         </template>
       </el-table-column>
-      <el-table-column prop="orderNum" label="排序" width="60px"></el-table-column>
-      <el-table-column prop="perms" label="权限标识" width="130px" :show-overflow-tooltip="true"></el-table-column>
-      <el-table-column prop="component" label="组件路径" width="180px" :show-overflow-tooltip="true"></el-table-column>
-      <el-table-column prop="visible" label="可见" :formatter="visibleFormat" width="80px"></el-table-column>
-      <el-table-column label="创建时间" align="center" prop="createTime" width="180">
+      <el-table-column prop="orderNum" label="排序" width="60"></el-table-column>
+      <el-table-column prop="perms" label="权限标识" :show-overflow-tooltip="true"></el-table-column>
+      <el-table-column prop="component" label="组件路径" :show-overflow-tooltip="true"></el-table-column>
+      <el-table-column prop="visible" label="可见" :formatter="visibleFormat" width="80"></el-table-column>
+      <el-table-column label="创建时间" align="center" prop="createTime">
         <template slot-scope="scope">
           <span>{{ parseTime(scope.row.createTime) }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="操作" align="center" width="180" class-name="small-padding fixed-width">
+      <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button size="mini" 
             type="text" 
@@ -82,6 +82,7 @@
               <treeselect
                 v-model="form.parentId"
                 :options="menuOptions"
+                :normalizer="normalizer"
                 :show-count="true"
                 placeholder="选择上级菜单"
               />
@@ -173,7 +174,7 @@
 </template>
 
 <script>
-import { listMenu, getMenu, treeselect, delMenu, addMenu, updateMenu } from "@/api/system/menu";
+import { listMenu, getMenu, delMenu, addMenu, updateMenu } from "@/api/system/menu";
 import Treeselect from "@riophae/vue-treeselect";
 import "@riophae/vue-treeselect/dist/vue-treeselect.css";
 import IconSelect from "@/components/IconSelect";
@@ -209,6 +210,9 @@ export default {
         ],
         orderNum: [
           { required: true, message: "菜单顺序不能为空", trigger: "blur" }
+        ],
+        path: [
+          { required: true, message: "路由地址不能为空", trigger: "blur" }
         ]
       }
     };
@@ -228,16 +232,27 @@ export default {
     getList() {
       this.loading = true;
       listMenu(this.queryParams).then(response => {
-        this.menuList = response.data;
+        this.menuList = this.handleTree(response.data, "menuId");
         this.loading = false;
       });
     },
+    /** 转换菜单数据结构 */
+    normalizer(node) {
+      if (node.children && !node.children.length) {
+        delete node.children;
+      }
+      return {
+        id: node.menuId,
+        label: node.menuName,
+        children: node.children
+      };
+    },
     /** 查询菜单下拉树结构 */
     getTreeselect() {
-      treeselect().then(response => {
+      listMenu().then(response => {
         this.menuOptions = [];
-        const menu = { id: 0, label: '主类目', children: [] };
-        menu.children = response.data;
+        const menu = { menuId: 0, menuName: '主类目', children: [] };
+        menu.children = this.handleTree(response.data, "menuId");
         this.menuOptions.push(menu);
       });
     },
