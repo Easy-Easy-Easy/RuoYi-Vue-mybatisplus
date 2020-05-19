@@ -109,6 +109,18 @@ public class SysDeptServiceImpl implements ISysDeptService
     }
 
     /**
+     * 根据ID查询所有子部门（正常状态）
+     * 
+     * @param deptId 部门ID
+     * @return 子部门数
+     */
+    @Override
+    public int selectNormalChildrenDeptById(Long deptId)
+    {
+        return deptMapper.selectNormalChildrenDeptById(deptId);
+    }
+
+    /**
      * 是否存在子节点
      * 
      * @param deptId 部门ID
