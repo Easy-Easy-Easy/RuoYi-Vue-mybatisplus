@@ -208,7 +208,7 @@
           </el-col>
           <el-col :span="12">
             <el-form-item label="归属部门" prop="deptId">
-              <treeselect v-model="form.deptId" :options="deptOptions" placeholder="请选择归属部门" />
+              <treeselect v-model="form.deptId" :options="deptOptions" :disable-branch-nodes="true" :show-count="true" placeholder="请选择归属部门" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -572,8 +572,6 @@ export default {
           resetUserPwd(row.userId, value).then(response => {
             if (response.code === 200) {
               this.msgSuccess("修改成功，新密码是：" + value);
-            } else {
-              this.msgError(response.msg);
             }
           });
         }).catch(() => {});
@@ -588,8 +586,6 @@ export default {
                 this.msgSuccess("修改成功");
                 this.open = false;
                 this.getList();
-              } else {
-                this.msgError(response.msg);
               }
             });
           } else {
@@ -598,8 +594,6 @@ export default {
                 this.msgSuccess("新增成功");
                 this.open = false;
                 this.getList();
-              } else {
-                this.msgError(response.msg);
               }
             });
           }
