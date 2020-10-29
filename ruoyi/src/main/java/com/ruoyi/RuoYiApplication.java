@@ -36,5 +36,6 @@ public class RuoYiApplication
         MultipartConfigFactory factory = new MultipartConfigFactory();
         factory.setLocation("./");
         return factory.createMultipartConfig();
+
     }
 }
